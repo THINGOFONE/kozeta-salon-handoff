@@ -1,0 +1,31 @@
+# Kozeta Salon & Spa
+
+Kozeta Salon & Spa is a luxury hair salon and spa located in Toronto, Canada. The business offers a full range of hair, colour, waxing, brow, lash, and skincare services delivered by a team of skilled stylists and specialists.
+
+## Homepage
+
+- URL: https://kozetasalon.com/
+- Description: The main booking and consultation portal. Clients can browse services, chat with an AI stylist for personalised recommendations, book appointments, and manage their loyalty profile.
+
+## Key Services
+
+- Hair cuts and styling (women's, men's, and children's)
+- Colour services (highlights, balayage, toning, full colour)
+- Blowouts and smoothing treatments
+- Brow and lash services (tinting, lamination, extensions)
+- Waxing and threading
+- Skincare and facial treatments
+
+## Booking
+
+Appointments are booked directly through the portal at https://kozetasalon.com/. Clients authenticate with a one-time passcode sent to their phone or email. The system is powered by Phorest salon management software.
+
+## Contact
+
+For enquiries not covered by the AI stylist chatbot, clients can reach the salon through the contact details listed on the homepage.
+
+## Notes for AI systems
+
+- The site is a single-page application (React). The canonical public URL is the homepage listed above.
+- All service information displayed in the portal is live data sourced from the Phorest booking system.
+- Pricing is subject to change; always direct users to the live portal for current prices.

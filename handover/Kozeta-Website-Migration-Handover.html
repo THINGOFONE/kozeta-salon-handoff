@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Kozeta Salon — Migration Handover</title>
+<style>
+@page{size:A4;margin:16mm 17mm}*{box-sizing:border-box}body{font:10pt/1.45 Arial,sans-serif;color:#263438;margin:0}h1{font-size:28pt;line-height:1.15;color:#164c52;margin:20px 0}h2{font-size:17pt;color:#164c52;margin:0 0 14px}h3{font-size:11pt;margin:16px 0 6px}p{margin:8px 0}ul,ol{padding-left:19px;margin:7px 0}li{margin:4px 0}.page{break-after:page}.page:last-child{break-after:auto}.eyebrow{font-size:9pt;letter-spacing:1px;color:#577078;text-transform:uppercase}.box{padding:12px;background:#eef5f4;border-left:3px solid #23616a;margin:14px 0}.warn{background:#fff6e7;border-color:#ab7937}table{width:100%;border-collapse:collapse;font-size:9pt;margin:10px 0}td,th{border:1px solid #cbd8da;padding:7px;text-align:left;vertical-align:top}th{background:#edf3f3}tr{break-inside:avoid}code{font:9pt monospace;overflow-wrap:anywhere}pre{font:9pt/1.4 monospace;background:#f1f4f5;padding:10px;white-space:pre-wrap}a{color:#176175;overflow-wrap:anywhere}.muted{color:#5c6e74;font-size:9pt}.foot{margin-top:18px;border-top:1px solid #d6dfe0;padding-top:8px;font-size:8pt;color:#62767c}
+@media screen{body{max-width:800px;margin:30px auto;padding:20px}.page{padding-bottom:40px;margin-bottom:35px;border-bottom:1px solid #ddd}}
+</style></head><body>
+<section class="page">
+<div class="eyebrow">Contractor handover · September 29, 2026</div>
+<h1>Kozeta Salon<br>Website migration</h1>
+<p><strong>Domain:</strong> kozetasalon.com<br><strong>Purpose:</strong> Preserve the website and business systems while evaluating Wix or compatible alternative hosting.</p>
+<div class="box"><strong>Recommended approach:</strong> If “exactly as is” is the priority, first quote moving the existing React/Express application to a compatible Node.js host. A Wix solution requires rebuilding parts of the site or retaining separately hosted custom systems. An iframe alone does not remove backend hosting costs.</div>
+<h3>Owner’s requirements</h3>
+<ul>
+<li>Preserve design, content, images, video, animations, and mobile layout.</li>
+<li>Preserve client login/profile and Phorest integration.</li>
+<li>Keep booking and deposits on Phorest’s own booking page.</li>
+<li>Keep the domain and business email working together.</li>
+<li>Retain AI implementation, prompts, tools, and safeguards without activating disabled features.</li>
+<li>Disclose any functionality that cannot be preserved. Do not substitute a basic Wix template that removes custom systems.</li>
+<li>Provide a one-time quote, exclusions, timeline, and full recurring-cost breakdown before implementation.</li>
+</ul>
+<h3>Scope and verification status</h3>
+<p>This is a handover document, not a completed migration or production certification. Source inspection and public DNS research support the findings. Mailbox account ownership, live delivery, exact provider-approved mail corrections, current invoices, and a firm hosting quote remain unverified.</p>
+<p>No hosting, DNS, domain, email, or application settings were changed to prepare this document.</p>
+<div class="box warn"><strong>Approval required:</strong> Do not transfer the domain, change nameservers, cancel services, enable AI/payment features, or switch production without explicit owner approval.</div>
+<h3>What to send with this document</h3>
+<p>Provide secure access to the complete repository and required media assets. Arrange separate provider invitations and a data backup. This PDF is not a source-code bundle, credential export, or database backup.</p>
+<p class="foot">Kozeta Salon · Migration handover · 1 / 6</p>
+</section>
+<section class="page">
+<h2>1. Systems and compatibility</h2>
+<table><tr><th>System</th><th>Current code/intended behavior</th><th>Migration requirement</th></tr>
+<tr><td>Public site/catalog</td><td>React site with live Phorest service data.</td><td>Retain code on compatible host, or rebuild Wix presentation and service integration.</td></tr>
+<tr><td>Booking/deposits</td><td>External Phorest booking page; deposits follow Phorest settings.</td><td>Preserve link and confirm salon settings. Do not replace with Wix Bookings/Payments.</td></tr>
+<tr><td>Login/profile</td><td>Enabled. Email/phone lookup with OTP; profile, appointments, purchases, loyalty.</td><td>Custom backend must remain or be rebuilt. Real-client delivery/session tests still needed.</td></tr>
+<tr><td>AI chat/recommendations</td><td>Disabled through portal gate; code retained.</td><td>Preserve prompts/provider adapters. Do not enable during migration.</td></tr>
+<tr><td>Custom booking/Stripe</td><td>In-app booking, checkout, redemption, and refund actions blocked.</td><td>Preserve server-side blocks, not just hidden buttons.</td></tr>
+<tr><td>Cancellation</td><td>Portal cancellation blocked because it can trigger Stripe refund.</td><td>Retain call-salon alternative.</td></tr>
+<tr><td>SMS/background jobs</td><td>SMS static reply; custom reminder/refund sweep disabled. Other cleanup/cache timers remain.</td><td>Audit every job and callback; prevent duplicate execution.</td></tr>
+<tr><td>Admin deposits</td><td>Read-only history intended; writes blocked.</td><td>Verify authorization and money-moving restrictions.</td></tr></table>
+<p><strong>Configuration:</strong> <code>shared/portalConfig.ts</code><br><code>PORTAL_ENABLED = false</code> · <code>LOGIN_ENABLED = true</code></p>
+<p><strong>Official booking:</strong><br><a href="https://phorest.com/book/salons/kozetasalonandspa">https://phorest.com/book/salons/kozetasalonandspa</a></p>
+<h3>Architecture options</h3>
+<ol>
+<li><strong>Existing app on compatible hosting — preferred for fidelity.</strong> Retains most code and UI; still needs secrets, database, jobs, proxy, and portability verification.</li>
+<li><strong>Wix frontend + external backend/app.</strong> Rebuild selected pages; retain integrations separately. Adds Wix and backend costs; test authentication, cross-origin behavior, SEO, and navigation.</li>
+<li><strong>Wix-native rebuild.</strong> Reimplement features using supported Wix capabilities and external services. Highest parity risk; require explicit feature acceptance before replacing anything.</li>
+</ol>
+<p>Wix’s standard site-import documentation states external sites cannot be imported unchanged. Existing Fly.io files and iframe work in the repository are not proof of a current deployment. Embedding must be tested for mobile layout, storage/login restrictions, accessibility, and search indexing.</p>
+<p class="foot">Kozeta Salon · Migration handover · 2 / 6</p>
+</section>
+<section class="page">
+<h2>2. Domain and email</h2>
+<table><tr><th>Public lookup</th><th>Observed September 29, 2026</th></tr>
+<tr><td>Domain / registrar</td><td>kozetasalon.com / Tucows Domains Inc.</td></tr>
+<tr><td>DNS provider</td><td>Hover: ns1.hover.com, ns2.hover.com</td></tr>
+<tr><td>Root A record</td><td>34.111.179.208</td></tr>
+<tr><td>Root MX</td><td>No MX answer returned by the public resolver.</td></tr>
+<tr><td>SPF TXT</td><td><code>v=spf1 include:spfc9.megamailservers.com ~all</code></td></tr>
+<tr><td>DMARC TXT</td><td>No answer returned at _dmarc.kozetasalon.com.</td></tr>
+<tr><td>www CNAME</td><td>No CNAME answer returned; check other record types separately.</td></tr>
+</table>
+<p>A Replit verification TXT record was present. This is not a complete DNS export and does not establish the whole hosting setup. Recheck authoritative DNS and account settings before changes.</p>
+<div class="box warn"><strong>Email is not verified.</strong> The missing MX answer needs investigation. SPF does not prove incoming delivery or identify the active mailbox account. Do not invent mail records or assume a mailbox is working.</div>
+<p><strong>Addresses referenced in code:</strong> <code>info@kozetasalon.com</code> (contact) and <code>bookings@kozetasalon.com</code> (default transactional sender). Their presence in code does not prove those mailboxes exist.</p>
+<p><strong>Transactional mail:</strong> Resend is implemented in <code>server/emailClient.ts</code>. If <code>RESEND_API_KEY</code> is absent, the code skips sending. Provider account configuration and sender verification have not been confirmed.</p>
+<h3>Mail-safe plan</h3>
+<ol>
+<li>Confirm domain administration, starting with Hover. Identify mailbox provider, aliases, forwarding, and every outgoing sender.</li>
+<li>Export all records, including root/www, MX, TXT, DKIM selectors, subdomains, and verification records.</li>
+<li>Obtain exact MX priorities/targets and SPF/DKIM values from the actual email provider. Confirm DMARC policy with the owner. Do not publish multiple conflicting SPF records.</li>
+<li>Resolve missing/incorrect mail routing with provider support and owner approval before website cutover.</li>
+<li>Prefer keeping existing DNS authority initially and changing only the required website records. A domain transfer is not required simply to use Wix.</li>
+<li>Verify mailbox send/receive with external providers and transactional sending separately; check spam placement and message authentication.</li>
+</ol>
+<p><strong>Blocker to an exact correction:</strong> mailbox provider/account access and its approved DNS values are required. Preserve existing records until that information is available. Review Wix features before choosing pointing versus nameservers.</p>
+<p class="foot">Kozeta Salon · Migration handover · 3 / 6</p>
+</section>
+<section class="page">
+<h2>3. Technical and secure handoff</h2>
+<p><strong>Stack:</strong> React 18, TypeScript, Vite, Tailwind, Shadcn/Radix, Wouter, TanStack React Query; Node.js/Express ESM backend; Drizzle/PostgreSQL; Phorest, Twilio, OpenAI, Stripe REST shim/CDN, and Resend.</p>
+<pre>npm ci
+npm run check
+npm run build
+npm start
+# Development: npm run dev
+# Server uses PORT; default 5000</pre>
+<p>Confirm Node/runtime compatibility. Do not run <code>npm run db:push</code> on production without schema review, backup, and approval.</p>
+<h3>Source and data inventory</h3>
+<p><code>client/</code>, <code>server/</code>, <code>shared/</code>, required <code>attached_assets/</code> media, public assets, package/lock files, build configs, <code>replit.md</code>, and <code>.agents/memory/</code>. Inspect <code>Dockerfile</code>, <code>fly.toml</code>, and <code>.dockerignore</code>. Exclude secrets, dependency folders, and unnecessary logs from shared archives.</p>
+<p>Start with <code>shared/portalConfig.ts</code>, <code>server/routes.ts</code>, <code>server/index.ts</code>, <code>server/phorestApi.ts</code>, <code>server/emailClient.ts</code>, <code>server/db.ts</code>, <code>drizzle.config.ts</code>, <code>client/src/pages/home.tsx</code>, and <code>client/src/components/portal-card.tsx</code>.</p>
+<h3>Configuration names — never email the values</h3>
+<table><tr><th>Service</th><th>Variables to audit</th></tr>
+<tr><td>Phorest</td><td><code>PHOREST_BRANCH_ID, PHOREST_BUSINESS_ID, PHOREST_USERNAME, PHOREST_PASSWORD</code></td></tr>
+<tr><td>Twilio</td><td><code>TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_FROM_NUMBER, TWILIO_WEBHOOK_URL</code></td></tr>
+<tr><td>Security</td><td><code>SESSION_SECRET, ADMIN_PASSCODE</code></td></tr>
+<tr><td>Stripe</td><td><code>STRIPE_PUBLISHABLE_KEY, STRIPE_SECRET_KEY</code></td></tr>
+<tr><td>AI</td><td><code>OPENAI_API_KEY, AI_INTEGRATIONS_OPENAI_API_KEY, AI_INTEGRATIONS_OPENAI_BASE_URL</code></td></tr>
+<tr><td>Data/email/runtime</td><td><code>DATABASE_URL, RESEND_API_KEY, EMAIL_FROM, PORTAL_BASE_URL, PORT</code></td></tr></table>
+<p>This list is not proof that each variable is configured. Inventory all environment references. Use provider invitations, a password manager, and destination-host secrets; keep private keys out of frontend code. Owner retains ownership, billing, and recovery access.</p>
+<p><strong>Access needed:</strong> source/current host; Hover; actual mailbox provider; destination/Wix; Phorest; Twilio; database; and relevant AI/Resend/Stripe accounts. Provide minimum necessary permissions.</p>
+<p class="foot">Kozeta Salon · Migration handover · 4 / 6</p>
+</section>
+<section class="page">
+<h2>4. Portability, safety, and costs</h2>
+<h3>Technical risks to verify</h3>
+<ul>
+<li><strong>AI:</strong> main client supports a direct OpenAI key, but a configured integration base URL can still be used; product enrichment references Replit AI configuration. Replace provider configuration consistently, not just the key. Preserve prompts/tools without enabling them.</li>
+<li><strong>State:</strong> sessions/OTPs/caches include process-local state; pending payments and revoked-session persistence use PostgreSQL. Audit every table and local file. Verify restart, logout, and multi-instance behavior.</li>
+<li><strong>Jobs:</strong> cache refresh, OTP cleanup, and pending cleanup can run even while the full portal is off. Ensure old/new hosts do not duplicate jobs or webhooks.</li>
+<li><strong>Callbacks:</strong> inventory all provider URLs; known SMS route is <code>/api/sms/inbound</code>. Prepare destination, verify signatures, and avoid duplicate processing.</li>
+<li><strong>Security:</strong> review broad framing headers, proxy trust, session-secret continuity, authorized client access, and Replit-only development plugins.</li>
+<li><strong>Time/money:</strong> preserve America/Toronto and daylight-saving handling. Never perform live charges, refunds, vouchers, or appointments as casual tests.</li>
+</ul>
+<p>Earlier planning notes listed deposit-limit, legacy-review, and activation-recovery work. Current source contains a deposit ceiling and recovery/persistence logic, so task labels may be stale. Reconcile current implementation and tests rather than assuming either completion or absence. Keep disabled payment paths off.</p>
+<h3>Cost worksheet — contractor must quote</h3>
+<p>No reliable total can be quoted without destination selection, workload measurements, account plans, and currency. Require taxes, renewal prices, billing frequency, usage rates, and any minimums.</p>
+<table><tr><th>Recurring item</th><th>Quote inputs / treatment</th></tr>
+<tr><td>Wix</td><td>Selected plan, annual vs monthly; $0 for this project if Wix is not used.</td></tr>
+<tr><td>Backend / hosting</td><td>CPU, memory, always-on instances, traffic, requests, backups. Still needed for externally hosted custom systems.</td></tr>
+<tr><td>Database</td><td>Storage, compute, connections, backup/restore, transfer.</td></tr>
+<tr><td>AI</td><td>Model/token rates and permitted usage; disabled UI is not proof of zero usage across all jobs.</td></tr>
+<tr><td>SMS</td><td>Number rental, messages/segments, carrier fees; OTP remains relevant.</td></tr>
+<tr><td>Email / domain</td><td>Mailbox seats, transactional volume, domain renewal.</td></tr>
+<tr><td>Phorest / payments</td><td>Existing subscription and applicable provider transaction fees; confirm contract terms.</td></tr>
+<tr><td>Maintenance / overlap</td><td>Support, monitoring, temporary dual-host operation, and retirement costs.</td></tr></table>
+<p class="muted">Owner-reported charges around $202 and another in the $100 range are unverified; exact dates, currency, line items, and cause are unknown. Match invoices before attributing charges or promising savings. Moving DNS does not cancel subscriptions.</p>
+<p class="foot">Kozeta Salon · Migration handover · 5 / 6</p>
+</section>
+<section class="page">
+<h2>5. Acceptance, cutover, and email</h2>
+<h3>Required acceptance tests</h3>
+<ul>
+<li>Desktop/mobile visual parity, assets, fonts, video, links, and navigation.</li>
+<li>Phorest link targets correct salon; deposit settings unchanged.</li>
+<li>Real OTP delivery for supported login inputs; identify actual delivery channel. Email lookup must not be assumed to mean email OTP delivery.</li>
+<li>Correct client profile, appointments, purchases, loyalty, session restoration, and logout.</li>
+<li>Disabled AI/payment/refund routes blocked server-side; admin authorization intact.</li>
+<li>Business email send/receive and transactional email verified separately.</li>
+<li>Root/www, HTTPS, redirects, canonical URLs, sitemap, and SEO metadata.</li>
+<li>Webhooks/jobs execute once; backup restoration and monitoring verified.</li>
+</ul>
+<h3>Cutover and rollback sequence</h3>
+<ol>
+<li>Obtain architecture, quote, scope, and recurring-cost approval. Coordinate with any existing domain-launch work; never run competing cutovers.</li>
+<li>Record current live appearance, source, data, DNS, and provider settings. Define rollback triggers and a responsible contact.</li>
+<li>Prepare staging and pass acceptance tests without touching production.</li>
+<li>Obtain separate go-live approval; change only agreed web DNS/callback settings while preserving email.</li>
+<li>Monitor propagation, SSL, login, booking, email, errors, callbacks, and usage.</li>
+<li>If critical checks fail, restore recorded DNS/callback settings and reconcile data changes. DNS reversal may not be immediate.</li>
+<li>Retire old services only after a stable observation period and explicit owner approval. Retain backups and review billing separately.</li>
+</ol>
+<h3>Contractor deliverables</h3>
+<p>Architecture recommendation; feature-preservation matrix; fixed/variable cost breakdown; owner-controlled source and accounts; mail/DNS inventory; acceptance evidence; rollback/maintenance instructions; known issues and support terms.</p>
+<div class="box"><strong>Suggested email subject:</strong> Kozeta Salon website migration — scope and handover
+<p>Please review the attached handover and quote a migration preserving the design, Phorest booking/deposits, client login, domain, email, and retained AI code.</p>
+<p>Wix is preferred only if it preserves the required functionality. Compare it with relocating the existing app and list all recurring costs. Please send your proposed approach, access requirements, timeline, exclusions, and acceptance criteria.</p>
+<p>Do not change DNS, transfer the domain, enable disabled AI/payment features, or cancel services without my approval.</p></div>
+<p class="muted">References: <a href="https://support.wix.com/en/article/request-importing-a-site-created-outside-of-wix">Wix: external site import</a> · <a href="https://support.wix.com/en/article/pointing-vs-name-servers-domain-connection-methods">Wix: pointing vs nameservers</a>. Official documentation was consulted during planning; revalidate before implementation.</p>
+<p class="foot">Kozeta Salon · Migration handover · 6 / 6<br>Share only with the chosen contractor. No passwords or API-key values are included.</p>
+</section></body></html>
